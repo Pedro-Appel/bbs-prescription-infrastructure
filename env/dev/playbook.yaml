@@ -1,0 +1,28 @@
+- hosts: terraform-ansible
+  tasks:
+  - name: Task - 1 Update APT package manager repositories cache
+    apt:
+      update_cache: yes
+    become: true
+  - name: Task - 2 Install Java using Ansible
+    become: yes
+    apt:
+      name: "{{ packages }}"
+      state: present
+    vars:
+      packages:
+           - openjdk-17-jdk
+           - maven
+  - name: Task - 3 Echo java version to file
+    shell: 'cd /home/ubuntu; java --version > version.txt'
+  - name: Project cloning
+    ansible.builtin.git:
+      repo: https://github.com/Pedro-Appel/bbs-prescription-blockchain.git
+      dest: /home/ubuntu/bbs
+      version: main
+      force: yes
+  - name: Maven clean Install
+    shell: 'cd /home/ubuntu/bbs; mvn clean install'
+
+  - name: Start application
+    shell: 'cd /home/ubuntu/bbs/target; java -jar blockchain.jar'
