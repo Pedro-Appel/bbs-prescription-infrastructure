@@ -1,5 +1,5 @@
-*/env/dev/bbs-dev*
-*/env/prd/bbs-prd*
+env/dev/bbs-dev*
+env/prd/bbs-prd*
 
 
 # Local .terraform directories
